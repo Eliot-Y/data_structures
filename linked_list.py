@@ -7,9 +7,11 @@ class Node:
 class LinkedList:
     """класс реализующий односвязный список"""
 
-    def __init__(self):
+    def __init__(self, *args):
         self._head = None
         self._tail = None
+        if len(args) > 0:
+            self.extend(args)
 
     def contains(self, item):  # проверить находится ли узел в списке
         current_node = self._head
@@ -129,3 +131,57 @@ class LinkedList:
 
         del ptr
         return res_value
+
+    def insert(self, find_indx, item):  # вставить элемент по индексу
+        if self._head is None or find_indx <= 0:
+            self.push_front(item)
+            return True
+        current_node = self._head
+        indx = 0
+        while not (current_node is None):
+            if current_node.next_node is None:
+                self.push_back(item)
+                return True
+
+            if indx == find_indx:
+                new_node = Node(item)
+                left.next_node = new_node
+                new_node.next_node = current_node
+                return True
+
+            left = current_node
+            indx += 1
+            current_node = current_node.next_node
+        self.push_back(item)
+        return True
+
+    def clear(self):  # очистить список
+        current_node = self._head
+        while not (current_node is None):
+            left = current_node
+            current_node = current_node.next_node
+            left.next_node = None
+            left.value = None
+        self._tail = None
+        self._head = None
+
+    def copy(self):  # копирование списка
+        current_node = self._head
+        new_link_obj = LinkedList()
+        while not (current_node is None):
+            new_link_obj.push_back(current_node.value)
+
+            current_node = current_node.next_node
+        return new_link_obj
+
+    def extend(self, temp_ls, *args):  # добавление нескольких переменных
+        try:
+            for vl in temp_ls:
+                self.push_back(vl)
+        except:
+            self.push_back(temp_ls)
+
+        for vl in args:
+            self.push_back(vl)
+
+

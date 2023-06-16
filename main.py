@@ -26,6 +26,21 @@ def test_linked_list():
     obj_list.erase(16)
     obj_list.show_list()
 
+    print('\nCreate object 2')
+    obj2 = LinkedList(12, 24, 53, 90)
+    obj2.insert(2, 404)
+    obj2.extend('098765')
+    obj2.extend(4, 3, 2, 1)
+    obj2.show_list()
+
+    obj3 = obj2.copy()
+    for _ in range(8):
+        obj3.pop_back()
+    obj2.show_list()
+    obj3.show_list()
+    obj3.clear()
+    obj3.show_list()
+
 
 if __name__ == '__main__':
     test_linked_list()
