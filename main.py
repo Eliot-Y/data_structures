@@ -1,4 +1,5 @@
 from linked_list import LinkedList, Node
+from binary_tree import Tree, Node
 
 
 def test_linked_list():
@@ -42,5 +43,20 @@ def test_linked_list():
     obj3.show_list()
 
 
+def test_binary_tree():
+    obt = Tree()
+    ls = [10, 5, 7, 16, 13, 2, 20]
+    for x in ls:
+        obt.append(x)
+
+    obt.show_wide_tree()
+    obt.del_node(5)
+    obt.show_wide_tree()
+    for x in range(2, 15, 2):
+        obt.append(x)
+    obt.show_tree()
+
+
 if __name__ == '__main__':
     test_linked_list()
+    # test_binary_tree()
