@@ -5,8 +5,14 @@ class Node:
 
 
 class Tree:
-    def __init__(self):
+    def __init__(self, var=None):
         self.root = None
+        if var:
+            try:
+                for i in var:
+                    self.append(i)
+            except TypeError:
+                self.append(var)
 
     def __find(self, node, parent, item):  # параметры: узел от которого ведется поиск, родительский узел и переменная
         # возвращает ссылку на узел, на родительский узел и флаг о том, был ли добавлен узел (True)
@@ -26,7 +32,7 @@ class Tree:
 
         return node, parent, False
 
-    def append(self, item):
+    def append(self, item):  # добавить узел
         new_node = Node(item)
         if self.root is None:
             self.root = new_node
@@ -42,7 +48,7 @@ class Tree:
 
         return new_node
 
-    def show_tree(self, node=-1):
+    def show_tree(self, node=-1):  # отобразить дерево в глубину (по возрастанию)
         if node == -1:
             node = self.root
 
@@ -53,7 +59,10 @@ class Tree:
         print(node.data, end=' ')
         self.show_tree(node.right)
 
-    def show_wide_tree(self):
+    def show_wide_tree(self):  # отобразить дерево как по виду дерева
+        if self.root is None:
+            return False
+
         v = [self.root]
 
         while v:
@@ -101,8 +110,72 @@ class Tree:
             sl.data = min_node.data
             self.__del_one_child(min_node, min_node_parent)
 
-    def __find_min(self, node, parent):
+    def __find_min(self, node, parent):  # поиск узла с минимальным значением и его родителя
         if node.left is None:
             return node, parent
 
         return self.__find_min(node.left, node)
+
+    def __clear_p(self, sl, pr):
+        if sl.left:
+            self.__clear_p(sl.left, sl)
+
+        if sl.right:
+            self.__clear_p(sl.right, sl)
+
+        if pr is None:
+            sl = pr = None
+            self.root.data = None
+            self.root = None
+            return True
+
+        if pr.left == sl:
+            pr.left = None
+        else:
+            pr.right = None
+        return
+
+    def clear(self):
+        self.__clear_p(self.root, None)
+
+    def get_min(self):
+        min_node = self.__find_min(self.root, None)[0]
+        return min_node.data
+
+    def __find_max(self, node):
+
+        if node.right is None:
+            return node
+
+        return self.__find_max(node.right)
+
+    def get_max(self):
+        max_node = self.__find_max(self.root)
+        return max_node.data
+
+    def copy_tree(self):
+        if self.root is None:
+            return False
+
+        new_object = Tree()
+        v = [self.root]
+
+        while v:
+            tmp_ls = []
+            for ar in v:
+                new_object.append(ar.data)
+                if ar.left:
+                    tmp_ls.append(ar.left)
+                if ar.right:
+                    tmp_ls.append(ar.right)
+            v = tmp_ls
+        return new_object
+
+    def to_min_heap(self):
+        pass
+
+    def to_max_heap(self):
+        pass
+
+
+

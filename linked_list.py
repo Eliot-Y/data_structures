@@ -15,47 +15,51 @@ class LinkedList:
 
     def __find(self, find_indx=None, item=None):  # поиск узла и родителя по переданному индексу или значению
         if self._head is None:
-            return None, None
+            return None, None, None
 
-        if not (find_indx is None):
+        if not (find_indx is None):  # поиск по индексу
             current_node = self._head
             indx = 0
             pr = None
 
-            if indx < 0:
-                return self._head, None
+            if find_indx < 0:
+                return self._head, None, False
 
-            while current_node.next_node and indx <= find_indx:
-                if indx == find_indx:
-                    return current_node, pr
+            while current_node and indx <= find_indx:
+                if indx == find_indx and self._tail == current_node:
+                    return current_node, pr, True
+                elif indx == find_indx:
+                    return current_node, pr, False
 
                 pr = current_node
                 indx += 1
                 current_node = current_node.next_node
 
-            return current_node, pr  # если не нашли индекс, возвращается последний узел
+            return current_node, pr, True  # если не нашли индекс, возвращается последний узел, True - последний узел
 
-        elif not (item is None):
+        elif not (item is None):  # поиск по значению
             pr = None
             current_node = self._head
 
             while current_node:
                 if current_node.value == item:
-                    return current_node, pr
+                    return current_node, pr, False
 
                 pr = current_node
                 current_node = current_node.next_node
 
-            return None, None  # возвращение ссылки на последний узел и None, если не нашли
+            return None, None, None  # возвращение ссылки на последний узел и None, если не нашли
 
     def contains(self, item):  # проверить находится ли узел в списке
-        fl_1, fl_2 = self.__find(item=item)
+        fl_1, fl_2, fl_3 = self.__find(item=item)
         if fl_1 is None:
             return False
         return True
 
     def index(self, find_indx):  # получить значение узла по индексу
-        sl, pr = self.__find(find_indx=find_indx)
+        sl, pr, flag = self.__find(find_indx=find_indx)
+        if sl is None:
+            return pr.value
         return sl.value
 
     def __del_node(self, sl, pr):  # удаляет узел
@@ -73,11 +77,11 @@ class LinkedList:
         return True
 
     def erase(self, item):  # удалить элемент списка по переданному значению
-        sl, pr = self.__find(item=item)
+        sl, pr, flag = self.__find(item=item)
         return self.__del_node(sl, pr)
 
     def dell(self, find_indx: int):  # удалить по индексу
-        sl, pr = self.__find(find_indx=find_indx)
+        sl, pr, flag = self.__find(find_indx=find_indx)
         return self.__del_node(sl, pr)
 
     def show_list(self):  # вывод листа
@@ -148,23 +152,18 @@ class LinkedList:
         if self._head is None or find_indx <= 0:
             self.push_front(item)
             return True
-        current_node = self._head
-        indx = 0
-        while not (current_node is None):
-            if current_node.next_node is None:
-                self.push_back(item)
-                return True
 
-            if indx == find_indx:
-                new_node = Node(item)
-                left.next_node = new_node
-                new_node.next_node = current_node
-                return True
+        sl, pr, flag_last = self.__find(find_indx=find_indx)
+        if sl is None:
+            self.push_back(item)
+            return True
 
-            left = current_node
-            indx += 1
-            current_node = current_node.next_node
-        self.push_back(item)
+        new_node = Node(item)
+        pr.next_node = new_node
+        new_node.next_node = sl
+        if flag_last:
+            self._tail = sl
+
         return True
 
     def clear(self):  # очистить список
@@ -190,7 +189,7 @@ class LinkedList:
         try:
             for vl in temp_ls:
                 self.push_back(vl)
-        except:
+        except TypeError:
             self.push_back(temp_ls)
 
         for vl in args:
@@ -199,9 +198,4 @@ class LinkedList:
 
 ob = LinkedList()
 for x in range(11):
-    ob.push_back(x*2)
-
-ob.show_list()
-ob.insert(10, 11111)
-ob.show_list()
-
+    ob.push_back(x + 1)

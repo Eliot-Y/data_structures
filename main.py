@@ -10,8 +10,8 @@ def test_linked_list():
     obj_list.show_list()
     print('contains -- ', obj_list.contains(8))
     print('contains -- ', obj_list.contains(9))
-    print('index -- ', obj_list.index(6))
-    print('index -- ', obj_list.index(5000000000))
+    print('index 6 -- ', obj_list.index(6))
+    print('index 5000 -- ', obj_list.index(5000000000))
 
     obj_list.dell(5)
     obj_list.push_back(12345)
@@ -45,18 +45,25 @@ def test_linked_list():
 
 def test_binary_tree():
     obt = Tree()
+
     ls = [10, 5, 7, 16, 13, 2, 20]
     for x in ls:
         obt.append(x)
 
     obt.show_wide_tree()
-    obt.del_node(5)
-    obt.show_wide_tree()
+    obt.del_node(20)
+
     for x in range(2, 15, 2):
         obt.append(x)
+    obt.show_wide_tree()
+    print()
     obt.show_tree()
+    print(f"\nmax = {obt.get_max()}\nmin = {obt.get_min()}")
+    obt2 = obt.copy_tree()
+    obt2.show_wide_tree()
+    print(f'hash obt  {hash(obt)}\nhash obt2 {hash(obt2)}')
 
 
 if __name__ == '__main__':
-    test_linked_list()
-    # test_binary_tree()
+    # test_linked_list()
+    test_binary_tree()
