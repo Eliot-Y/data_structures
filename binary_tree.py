@@ -171,11 +171,21 @@ class Tree:
             v = tmp_ls
         return new_object
 
-    def to_min_heap(self):
-        pass
+    def mirror(self):
+        if not self.root:
+            return False
 
-    def to_max_heap(self):
-        pass
+        self.__mirror_i(self.root)
+        return True
+
+    def __mirror_i(self, node):
+        if node is None:
+            return
+
+        self.__mirror_i(node.left)
+        self.__mirror_i(node.right)
+        node.left, node.right = node.right, node.left
+
 
 
 

@@ -1,5 +1,6 @@
-from linked_list import LinkedList, Node
-from binary_tree import Tree, Node
+from linked_list import LinkedList
+from binary_tree import Tree
+from heap import Heap
 
 
 def test_linked_list():
@@ -28,10 +29,10 @@ def test_linked_list():
     obj_list.show_list()
 
     print('\nCreate object 2')
-    obj2 = LinkedList(12, 24, 53, 90)
+    obj2 = LinkedList()
     obj2.insert(2, 404)
     obj2.extend('098765')
-    obj2.extend(4, 3, 2, 1)
+    obj2.extend([4, 3, 2, 1])
     obj2.show_list()
 
     obj3 = obj2.copy()
@@ -64,6 +65,54 @@ def test_binary_tree():
     print(f'hash obt  {hash(obt)}\nhash obt2 {hash(obt2)}')
 
 
+def test_linked_list_like_stack():
+    bb = LinkedList()
+    for i in range(1, 11):
+        bb.push_front(i)
+    bb.show_list()
+
+    print('set max size 5: ', end='')
+    bb.set_max_size(5)
+    bb.show_list()
+
+    bb.push_front(99)
+    bb.push_front(88)
+    bb.push_front(77)
+    bb.push_front(66)
+    bb.show_list()
+    bb.push_back(11)
+    bb.push_back(12)
+    bb.push_back(13)
+    bb.show_list()
+
+
+def test_heap():
+    ob = Heap()
+    ob.add_el(0)
+    ob.add_el(1)
+    ob.add_el(2)
+    ob.add_el(3)
+    ob.add_el(4)
+    ob.add_el(5)
+    ob.add_el(6)
+    ob.add_el(7)
+    ob.add_el(8)
+    ob.add_el(9)
+    print(ob.ls_main)
+
+    print(ob.get_max())
+    print(ob.ls_main, '\n')
+
+    print(ob.get_max())
+    print(ob.ls_main, '\n')
+
+    print(ob.get_max())
+    print(ob.ls_main, '\n')
+
+    print(ob.get_max())
+    print(ob.ls_main, '\n')
+
+
 if __name__ == '__main__':
-    # test_linked_list()
-    test_binary_tree()
+    # test_heap()
+    print()
