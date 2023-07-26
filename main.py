@@ -112,7 +112,14 @@ def test_heap():
     print(ob.get_max())
     print(ob.ls_main, '\n')
 
+    lst = [4, 1, 9, 2, 7, 10, 35]
+    print(lst, 'to heap')
+    lst = Heap.heap(lst)
+
+    while lst.ls_main:
+        print(lst.get_max(), end=' ')
+
 
 if __name__ == '__main__':
-    # test_heap()
+    test_heap()
     print()
